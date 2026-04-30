@@ -3,8 +3,6 @@ PREFIX fhirvs: <http://hl7.org/fhir/ValueSet/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 
-# IMPORT <Base.shex>
-
 # start=@<All>
 
 # Tracks balance, charges, for patient or cost center
@@ -17888,3 +17886,18 @@ fhirvs:vision-base-codes ["up" "down" "in" "out"]
 # A coded concept listing the eye codes.
 fhirvs:vision-eye-codes ["right" "left"]
 
+
+
+# ----- Patched in: missing definitions from R5 Base.shex -----
+
+# Base for all types and resources
+<Base> CLOSED {   
+    a [fhir:Base]?;
+    fhir:nodeRole [fhir:treeRoot]?;
+}
+
+# A fixed quantity (no comparator)
+<SimpleQuantity> EXTENDS @<Quantity> CLOSED {   
+    a [fhir:SimpleQuantity]?;
+    fhir:nodeRole [fhir:treeRoot]?;
+}

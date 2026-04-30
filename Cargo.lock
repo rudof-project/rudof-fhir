@@ -607,9 +607,9 @@ checksum = "be1e0bca6c3637f992fc1cc7cbc52a78c1ef6db076dbf1059c4323d6a2048376"
 
 [[package]]
 name = "dctap"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63b1bbf34834c717d12c14f0b77db12fe65c8523402e7f37b98f2eab7ee0efcf"
+checksum = "6af91f7dbcd930ad8379c23db6f38953f062822be845a412a7c8df3d552dd275"
 dependencies = [
  "calamine",
  "csv",
@@ -1548,9 +1548,9 @@ checksum = "38d1115007560874e373613744c6fba374c17688327a71c1476d1a5954cc857b"
 
 [[package]]
 name = "mie"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "136572cf18d705695823801f9971f8de71eada9ec345d83f06aec5accd6cebb4"
+checksum = "4f95cce21c4bce5902af116359b6b0ec0c7118197a330aab0f41be50b721a59f"
 dependencies = [
  "hashlink",
  "rudof_iri",
@@ -1910,9 +1910,9 @@ dependencies = [
 
 [[package]]
 name = "pgschema"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bba1d5dc03f26e7d2539bd62a58e8047a183d7e6628700196f1501480be308a6"
+checksum = "02a481f832d77617886cd1bb25427a95357162d90fbcaeb6410b87611e5d3abb"
 dependencies = [
  "anyhow",
  "clap",
@@ -1963,9 +1963,9 @@ dependencies = [
 
 [[package]]
 name = "prefixmap"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd91be352db09c7a9612b6ea67d92c245553eea061355cd68af472a573e8bd89"
+checksum = "7c4a421638cc7040555f3e49acf7f0f4e350012740e617ee15af18cdccaefd0b"
 dependencies = [
  "colored",
  "indexmap",
@@ -2282,9 +2282,9 @@ dependencies = [
 
 [[package]]
 name = "rbe"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ae23f9d291b09bd2e9f323719d97442fcf394175ebd512b8ce2dac72d29e2f9"
+checksum = "bd23b9b84f7346a9f69b986f20afa9488300a805edbe857845aaa07763c2942a"
 dependencies = [
  "hashbag",
  "indexmap",
@@ -2299,9 +2299,9 @@ dependencies = [
 
 [[package]]
 name = "rdf_config"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe3321ffe40b4e24e55f977222255eeb4ff7517ffee584c89ee06e37822271ee"
+checksum = "383de6dd82946d893522a37fcdbb858eb26f4a0e8ea11d6c35e84185d70d2f03"
 dependencies = [
  "hashlink",
  "indexmap",
@@ -2455,9 +2455,9 @@ dependencies = [
 
 [[package]]
 name = "rudof_generate"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e415202a25ff48fb2eabb7d362b44b1567b5b3bf7dcedaae587230d3f4611cc8"
+checksum = "317b07da82cb4eae82c8824ce5bd6c2be8f0b81170266083451ed1bf01c9154e"
 dependencies = [
  "anyhow",
  "chrono",
@@ -2484,11 +2484,12 @@ dependencies = [
 
 [[package]]
 name = "rudof_iri"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e75785c345e5000263f877172c5ef69b1a1817d29e48d7b11796ca816d2d1a4"
+checksum = "07e6164084ab4328b208a0cba8232d75d130b0290791caaf1553e6258b2981c6"
 dependencies = [
  "getrandom 0.3.4",
+ "indexmap",
  "oxiri",
  "oxrdf",
  "proptest",
@@ -2500,9 +2501,9 @@ dependencies = [
 
 [[package]]
 name = "rudof_lib"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11964c83f37ea1371e9d5b0752967dd09d777bca9f4581e52c84f60fa49f778b"
+checksum = "2c1cfbb96ae10b3645071d9e5bf16e063805bdfc711e6ac125607641abe364fe"
 dependencies = [
  "colored",
  "crossterm",
@@ -2512,6 +2513,7 @@ dependencies = [
  "pgschema",
  "prefixmap",
  "rdf_config",
+ "regex",
  "reqwest",
  "rudof_generate",
  "rudof_iri",
@@ -2534,9 +2536,9 @@ dependencies = [
 
 [[package]]
 name = "rudof_rdf"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7fc2e0237c856392e3c90f5ce1d0fde5cf84cd50482d6c11915a5a30fbeda06c"
+checksum = "29eacdd5b7e6b4001ff20b01f8dcc63f7bc28335f7ecf29e0ad2ec28cf76124d"
 dependencies = [
  "colored",
  "const_format",
@@ -2914,9 +2916,9 @@ dependencies = [
 
 [[package]]
 name = "shacl"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f654b492d2a7427ff2f7fd3c70dc924bba90a142224a7c3963aaf5cae704b09"
+checksum = "463dbad716813db5a93e94cd852f9cf86741940322ba6c63fa3cc4ec22ff7e0c"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2936,9 +2938,9 @@ dependencies = [
 
 [[package]]
 name = "shapes_comparator"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1600e771d0eb0f2818d9820d3f9e311548c9c1b89c1cd2dec872effc24ce4dfc"
+checksum = "b5436a63738ecfb10937fbc5b42955e6fde11318dc89c4b9c8bde7df3b36ace9"
 dependencies = [
  "prefixmap",
  "rudof_iri",
@@ -2955,9 +2957,9 @@ dependencies = [
 
 [[package]]
 name = "shapes_converter"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "37ca930c0d5762cef153f35f0cd1a0271ce31a3935bc590fd1447c75c27f8402"
+checksum = "95581690ccba0435f5cc01ad68fd6fc9eefb9dca067792ec2492e4ddc003d474"
 dependencies = [
  "chrono",
  "dctap",
@@ -2991,9 +2993,9 @@ dependencies = [
 
 [[package]]
 name = "shex_ast"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb872a884af2ae82715afa75f260e69592369269bb8e48753d9d07bef961680a"
+checksum = "95551b5f9b9aacad38479fcd7f4a06b6761bc6cbf961ea9fe357f72bb1932dc7"
 dependencies = [
  "colored",
  "const_format",
@@ -3021,9 +3023,9 @@ dependencies = [
 
 [[package]]
 name = "shex_validation"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c20bd547e10ebb75c1fbbc024664a37a60f1229a387a9e0629daf0c48cfb1380"
+checksum = "56a524daeb7f5e04df79b1b7a042e1b0df4ea3fa6b140eaa4a0ca1080a362d22"
 dependencies = [
  "either",
  "indexmap",
@@ -3192,9 +3194,9 @@ dependencies = [
 
 [[package]]
 name = "sparql_service"
-version = "0.2.17"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aaf9070f786f14da26ad4e15a666797c1faf892d69d226eec9661f8e85fca86c"
+checksum = "5c16ca0379a7154a60228b4935cdb973f3352188149da9b048b4437cc5b5212a"
 dependencies = [
  "colored",
  "const_format",

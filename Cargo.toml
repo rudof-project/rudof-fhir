@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-rudof_lib = "0.2.17"
+rudof_lib = "0.2.18"
 anyhow    = "1"
