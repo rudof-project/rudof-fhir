@@ -1,0 +1,131 @@
+PREFIX fhir: <http://hl7.org/fhir/> 
+PREFIX fhirvs: <http://hl7.org/fhir/ValueSet/>
+PREFIX fhircs: <http://terminology.hl7.org/CodeSystem/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX owl:    <http://www.w3.org/2002/07/owl#>
+PREFIX sct: <http://snomed.info/id/>
+PREFIX : <http://ex.org/>
+
+start = @<Condition>
+
+# Temporarily removed `EXTENDS @<DomainResource>` for simplicity
+<Condition> CLOSED {   
+    a [fhir:Condition]?;
+    fhir:code @<CodeableConcept> AND @<Condition.code>?;
+}
+
+
+<Condition.code> EXTENDS @<CodeableConcept> CLOSED {
+    a [fhir:CodeableConcept]?;
+
+    # Must have at least 1 specific Coding -- needed if no IRI assertion present
+    fhir:coding @<OneOrMore_Condition.code.coding> 
+    
+    # OR must have a concept IRI assertion. Comment this to test Coding constraint.
+    | a @<160245001_or_404684003> ; 
+}
+
+
+# Concept IRI validation criteria
+<160245001_or_404684003> [sct:160245001] OR @<Descendant_404684003> 
+
+<Descendant_404684003> [sct:404684003] OR { rdfs:subClassOf @<Descendant_404684003> }
+
+
+
+# Coding validation criteria
+<OneOrMore_Condition.code.coding> {
+    rdf:first @<Condition.code.coding> ;
+    rdf:rest @<RDFListAny> ;
+} OR {
+    rdf:first . ;            # head doesn't match → recurse
+    rdf:rest @<Condition.code.coding> ;
+ }
+
+# Any RDF list tail (possibly empty)
+<RDFListAny> [rdf:nil]
+  OR {
+    rdf:first . ;            # '.' = any node
+    rdf:rest @<RDFListAny> ;
+  }
+
+
+<Condition.code.coding> EXTENDS @<Coding> CLOSED {
+    a [fhir:Coding]?; 
+    fhir:system @<Uri> AND { fhir:v [ "http://snomed.info/sct"^^xsd:anyURI ] } ;
+    fhir:code @<Code> AND @<Condition.code.coding.code> ;
+}
+
+
+<Condition.code.coding.code> EXTENDS @<Code> {
+   # Option 1: the extensional way
+   fhir:v @fhirvs:condition-code
+   
+   | # OR .... since @fhirvs:condition-code is incomplete
+
+   # Option 2: do literal translation but also recursively
+   fhir:v { ^fhir:codeValue @<160245001_or_404684003> } ;
+}
+
+# This works, but it's incomplete
+fhirvs:condition-code [ "404684003" ] 
+
+# Partially expanded version... Can we dynamically expand these? Would be huge
+#fhirvs:condition-code-expanded [ "404684003" "301343009" "105723007" "386661006" ]
+
+
+
+########################################################################
+########################################################################
+######################################################################## Dependencies
+
+<CodeableConcept> EXTENDS @<DataType> CLOSED {   
+    a [fhir:CodeableConcept]?;
+    a NONLITERAL*;
+    fhir:coding @<OneOrMore_Coding>?;
+}
+
+<OneOrMore_Coding> CLOSED {
+    rdf:first @<Coding>  ;
+    rdf:rest [rdf:nil] OR @<OneOrMore_Coding> 
+}
+
+<Coding> EXTENDS @<DataType> CLOSED {   
+    a [fhir:Coding]?;
+    a NONLITERAL?;
+    rdfs:isDefinedBy NONLITERAL?;
+    fhir:system @<Uri>?; 
+    fhir:version @<String>?; 
+    fhir:code @<Code>?; 
+    fhir:display @<String>?; 
+    fhir:userSelected @<Boolean>?; 
+}
+<Uri> EXTENDS @<PrimitiveType> CLOSED {   
+    a [fhir:uri]?;
+    fhir:v xsd:anyURI?; 
+} 
+<String> EXTENDS @<PrimitiveType> CLOSED {   
+    a [fhir:string]?;
+    fhir:v xsd:string MAXLENGTH 1048576?; 
+}  
+<Code> EXTENDS @<String> CLOSED {   
+    a [fhir:code]?;
+}
+<Boolean> EXTENDS @<PrimitiveType> CLOSED {   
+    a [fhir:boolean]?;
+    fhir:v xsd:boolean?; 
+}
+<PrimitiveType> EXTENDS @<DataType> CLOSED {   } 
+<DataType> EXTENDS @<Element> CLOSED {   }  
+<Element> EXTENDS @<Base> CLOSED {   
+    fhir:nodeRole [fhir:treeRoot]?;
+    fhir:id @<String>?; 
+    # ignore for now
+    #fhir:extension @<OneOrMore_Extension>?; 
+}
+<Base> CLOSED {   
+    a [fhir:Base]?;
+    fhir:nodeRole [fhir:treeRoot]?;
+}

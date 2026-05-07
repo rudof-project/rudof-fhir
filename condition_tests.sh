@@ -1,0 +1,1 @@
+rudof shex-validate --schema schemas/condition.shex --shapemap examples/condition_tests.sm examples/condition_tests.ttl

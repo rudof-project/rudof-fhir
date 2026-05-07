@@ -1,0 +1,126 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>  .
+@prefix fhir:  <http://hl7.org/fhir/> .
+@prefix sct: <http://snomed.info/id/> .
+@prefix : <http://ex.org/> .
+
+# ShEx input:  <http://hl7.org/fhir/Condition/f201>@START
+
+# Required CodeableConcept bindings are valid if and only if at least one Coding satisfies the ValueSet binding
+
+# Concept IRI variation: ... OR a concept IRI satisfies the ValueSet binding
+
+
+:validCoding1 a fhir:Condition ;
+  fhir:code :code1 .
+
+:code1 fhir:coding :coding_list1 .
+
+:coding_list1 rdf:first :coding11 ;
+              rdf:rest :coding_list1_2 .
+:coding_list1_2 rdf:first :coding12 ;
+              rdf:rest rdf:nil .
+
+:coding11 fhir:system :coding1system ;
+         fhir:code :coding1code ;
+         fhir:display :coding1display .
+
+:coding1system fhir:v "http://snomed.info/sct"^^xsd:anyURI .
+:coding1code fhir:v "404684003" .
+:coding1display fhir:v "Clinical finding (finding)" .
+       
+:coding12 # Extra invalid allowed if the other one is valid
+         fhir:system :coding2System ;
+         fhir:code [ fhir:v "fever" ] .
+
+:validCoding2 a fhir:Condition ;
+  fhir:code [
+     fhir:coding :coding_list2 
+  ] .
+
+:coding_list2   rdf:first :coding21 ;
+                rdf:rest :coding_list2_2 .
+:coding_list2_2 rdf:first :coding22 ;
+                rdf:rest rdf:nil .
+
+:coding21 fhir:system :coding21system ; 
+         fhir:code :coding21code ; 
+         fhir:display :coding21display  .
+:coding21system  fhir:v "http://snomed.info/sct"^^xsd:anyURI .
+:codin21code fhir:v "386661006" .
+:coding21display fhir:v "Fever" .
+        
+:coding22 # Extra invalid allowed if the other one is valid
+         fhir:system [ fhir:v "http://example.org"^^xsd:anyURI ] ;
+         fhir:code [ fhir:v "fever" ] .
+
+:invalidCoding1 a fhir:Condition ;
+  fhir:code [
+     fhir:coding (
+       [ 
+         fhir:system [ fhir:v "http://example.org"^^xsd:anyURI ] ;
+         fhir:code [ fhir:v "fever" ] ;
+       ] )
+  ] .
+
+
+:validCombined a fhir:Condition ;
+  fhir:code [
+     a sct:386661006 ; # <-- can satisfy binding instead of Coding
+     a sct:fake ;      # <-- extra allowed
+
+     fhir:coding ( [ # Can satisfy binding instead of concept IRI
+         fhir:system [ fhir:v "http://snomed.info/sct"^^xsd:anyURI ] ;
+         fhir:code [ fhir:v "386661006" ] ;
+         fhir:display [ fhir:v "Fever" ]
+       ]
+       [ # Extra invalid allowed if the other one is valid
+         fhir:system [ fhir:v "http://example.org"^^xsd:anyURI ] ;
+         fhir:code [ fhir:v "fever" ] ;
+       ] )
+  ] .
+
+:validConcept1 a fhir:Condition ;
+  fhir:code [
+     a sct:386661006 ; # <-- can satisfy binding instead of Coding
+     a sct:fake ;      # <-- extra allowed
+  ] .
+
+:validConcept2 a fhir:Condition ;
+  fhir:code [
+     a sct:105723007 ; # <-- can satisfy binding instead of Coding
+     a sct:fake ;      # <-- extra allowed
+  ] .
+
+:invalidConcept1 a fhir:Condition ;
+  fhir:code [
+     a sct:fake ;
+  ] .
+
+
+
+# OWL representation of relevant parts of SNOMED 
+<http://snomed.info/id/404684003> a owl:Class ;
+    rdfs:label "Clinical finding (finding)"@en .
+
+<http://snomed.info/id/301343009>
+    rdfs:label "Temperature-associated finding (finding)"@en ;
+    rdfs:subClassOf sct:404684003 .
+
+<http://snomed.info/id/105723007>
+    rdfs:label "Body temperature finding (finding)"@en ;
+    rdfs:subClassOf sct:301343009 .
+
+<http://snomed.info/id/123979008>
+    rdfs:label "Abnormal body temperature (finding)"@en ;
+    rdfs:subClassOf sct:105723007 .
+
+
+<http://snomed.info/id/386661006> rdf:type owl:Class ;
+   rdfs:label "Fever (finding)"@en ;
+   rdfs:subClassOf <http://snomed.info/id/123979008> ;
+   # Needed for intensional Coding validation. Could add with pre-processing.
+   # NOT needed for concept IRI-based validation.
+   fhir:codeValue "386661006" .     
